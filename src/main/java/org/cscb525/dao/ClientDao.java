@@ -3,18 +3,18 @@ package org.cscb525.dao;
 import java.util.List;
 
 import org.cscb525.configure.SessionFactoryUtil;
-import org.cscb525.entity.Company;
+import org.cscb525.entity.Client;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
-public class CompanyDao {
+public class ClientDao {
 
     // ======= create =======
-    public static void saveCompany(Company company) {
+    public static void save(Client client) {
         Transaction tx = null;
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.save(company);
+            session.save(client);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -23,36 +23,24 @@ public class CompanyDao {
     }
 
     // ======= read =======
-    public static Company getById(long id) {
+    public static Client getById(long id) {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.get(Company.class, id);
+            return session.get(Client.class, id);
         }
     }
 
     // ======= read =======
-    public static List<Company> getAll() {
+    public static List<Client> getAll() {
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery("from Company", Company.class).list();
-        }
-    }
-
-    // ======= read/stats =======
-    public static List<org.cscb525.dto.CompanyIncomeDto> getCompanyRevenue() {
-        try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
-            return session.createQuery(
-                "SELECT new org.cscb525.dto.CompanyIncomeDto(c.name, SUM(t.price)) " +
-                "FROM Transport t JOIN t.company c " +
-                "GROUP BY c.name " +
-                "ORDER BY SUM(t.price) DESC", 
-                org.cscb525.dto.CompanyIncomeDto.class).list();
+            return session.createQuery("from Client", Client.class).list();
         }
     }
     // ======= update =======
-    public static void updateCompany(Company company) {
+    public static void updateClient(Client client) {
         Transaction tx = null;
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.update(company);
+            session.update(client);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -61,11 +49,11 @@ public class CompanyDao {
     }
 
     // ======= delete =======
-    public static void deleteCompany(Company company) {
+    public static void deleteClient(Client client) {
         Transaction tx = null;
         try (Session session = SessionFactoryUtil.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
-            session.delete(company);
+            session.delete(client);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();

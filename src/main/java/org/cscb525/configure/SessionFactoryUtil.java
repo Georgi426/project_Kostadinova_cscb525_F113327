@@ -1,13 +1,9 @@
 package org.cscb525.configure;
 
-
+import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-
-
 import org.hibernate.service.ServiceRegistry;
-import org.hibernate.SessionFactory;
-
 
 public class SessionFactoryUtil {
 
@@ -17,8 +13,15 @@ public class SessionFactoryUtil {
         if (sessionFactory == null) {
             Configuration configuration = new Configuration();
 
-            ServiceRegistry serviceRegistry =
-                    new StandardServiceRegistryBuilder()
+            configuration.addAnnotatedClass(org.cscb525.entity.Company.class);
+            configuration.addAnnotatedClass(org.cscb525.entity.Client.class);
+            configuration.addAnnotatedClass(org.cscb525.entity.Employee.class);
+            configuration.addAnnotatedClass(org.cscb525.entity.Vehicle.class);
+            configuration.addAnnotatedClass(org.cscb525.entity.Transport.class);
+            configuration.addAnnotatedClass(org.cscb525.entity.Payment.class);
+
+            ServiceRegistry serviceRegistry
+                    = new StandardServiceRegistryBuilder()
                             .applySettings(configuration.getProperties()).build();
             sessionFactory = configuration.buildSessionFactory(serviceRegistry);
         }
